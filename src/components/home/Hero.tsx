@@ -13,7 +13,7 @@ const HeroSection = styled.section`
 `;
 
 const GlassCard = styled.div`
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.21);
   backdrop-filter: blur(10px);
   border-radius: ${({ theme }) => theme.borderRadius.md};
   border: 1px solid rgba(255, 255, 255, 0.18);

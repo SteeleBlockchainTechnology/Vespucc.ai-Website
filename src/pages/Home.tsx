@@ -1,10 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled, { keyframes } from 'styled-components'
 import Hero from '../components/home/Hero'
 import Features from '../components/home/Features'
-import Agents from './Agents'
-import TokenInfo from './TokenInfo'
-import Explore from './Explore'
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
@@ -33,10 +30,6 @@ const Section = styled.section`
   opacity: 0;
   
   &:nth-child(2) {
-    animation-delay: 0.2s;
-  }
-  
-  &:nth-child(3) {
     animation-delay: 0.4s;
   }
 `;
@@ -109,81 +102,42 @@ const PageSection = styled.div`
   position: relative;
 `;
 
-const PageDivider = styled.div`
-  height: 100px;
-  background: linear-gradient(to bottom, transparent, ${({ theme }) => theme.colors.background} 50%, transparent);
-  position: relative;
-  z-index: 10;
-  margin: 2rem 0;
-`;
+const Home: React.FC = () => {  
+  const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-const Home: React.FC = () => {
-  const sectionsRef = useRef<HTMLDivElement[]>([]);
-  const [visiblePages, setVisiblePages] = useState<string[]>(['home']);
-  
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.body.scrollHeight;
-      
-      // When user scrolls near the bottom, load the next page
-      if (scrollPosition + windowHeight > documentHeight - 200) {
-        if (visiblePages.length === 1 && visiblePages.includes('home')) {
-          setVisiblePages(['home', 'agents']);
-        } else if (visiblePages.length === 2 && visiblePages.includes('agents')) {
-          setVisiblePages(['home', 'agents', 'tokens']);
-        } else if (visiblePages.length === 3 && visiblePages.includes('tokens')) {
-          setVisiblePages(['home', 'agents', 'tokens', 'explore']);
-        }
-      }
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [visiblePages]);
-  
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting && index !== 1) { 
             entry.target.classList.add('visible');
           }
         });
       },
       { threshold: 0.1 }
     );
-    
-    sectionsRef.current.forEach((section) => {
-      if (section) observer.observe(section);
+
+    sectionsRef.current.forEach((section, index) => {
+      if (section && index !== 1) observer.observe(section);
     });
-    
-    return () => {
-      sectionsRef.current.forEach((section) => {
-        if (section) observer.unobserve(section);
-      });
-    };
-  }, [visiblePages]);
-  
-  const addToRefs = (el: HTMLDivElement) => {
-    if (el && !sectionsRef.current.includes(el)) {
-      sectionsRef.current.push(el);
-    }
-  };
+
+    return () => sectionsRef.current.forEach((section, index) => {
+        if (section && index !== 1) observer.unobserve(section);
+    });
+  }, []);
 
   return (
     <PageContainer>
       <PageSection>
         <HomeContainer>
           <ContentOverlay>
-            <Section ref={addToRefs}>
+            <Section ref={(el: HTMLDivElement | null): void => { sectionsRef.current[0] = el; }}>
               <Hero />
             </Section>
-            <Section ref={addToRefs}>
+            <Section ref={(el: HTMLDivElement | null): void => { sectionsRef.current[1] = el; }}>
               <Features />
             </Section>
-            <Section ref={addToRefs}>
+            <Section ref={(el: HTMLDivElement | null): void => { sectionsRef.current[2] = el; }}>
               <CallToAction>
                 <CTATitle>Ready to explore with Vespucc.ai?</CTATitle>
                 <CTAText>Join our community of explorers and discover the digital frontier with AI-powered navigation tools.</CTAText>
@@ -195,33 +149,6 @@ const Home: React.FC = () => {
           </ContentOverlay>
         </HomeContainer>
       </PageSection>
-      
-      {visiblePages.includes('agents') && (
-        <>
-          <PageDivider />
-          <PageSection ref={addToRefs}>
-            <Agents />
-          </PageSection>
-        </>
-      )}
-      
-      {visiblePages.includes('tokens') && (
-        <>
-          <PageDivider />
-          <PageSection ref={addToRefs}>
-            <TokenInfo />
-          </PageSection>
-        </>
-      )}
-      
-      {visiblePages.includes('explore') && (
-        <>
-          <PageDivider />
-          <PageSection ref={addToRefs}>
-            <Explore />
-          </PageSection>
-        </>
-      )}
     </PageContainer>
   );
 };

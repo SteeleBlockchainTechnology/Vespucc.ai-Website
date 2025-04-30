@@ -6,14 +6,14 @@ interface WhitePaperModalProps {
   onClose: () => void;
 }
 
-const ModalOverlay = styled.div<{ isOpen: boolean }>`
+const ModalOverlay = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.7);
-  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+  display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -83,7 +83,7 @@ const WhitePaperModal: React.FC<WhitePaperModalProps> = ({ isOpen, onClose }) =>
   };
 
   return (
-    <ModalOverlay isOpen={isOpen} onClick={handleOverlayClick}>
+    <ModalOverlay $isOpen={isOpen} onClick={handleOverlayClick}>
       <ModalContainer>
         <ModalHeader>
           <ModalTitle>White Paper</ModalTitle>

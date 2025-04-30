@@ -152,7 +152,7 @@ const TokenPurchase: React.FC = () => {
       <SummaryContainer>
         <SummaryItem>
           <span>Price per Token:</span>
-          <span>$0.0125</span>
+          <span>$-</span>
         </SummaryItem>
         <SummaryItem>
           <span>Token Amount:</span>

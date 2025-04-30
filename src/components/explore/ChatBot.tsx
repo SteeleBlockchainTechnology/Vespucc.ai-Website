@@ -100,7 +100,7 @@ const ChatBot: React.FC = () => {
       // Simulate AI response
       setTimeout(() => {
         setMessages(prev => [...prev, {
-          text: `I'm your Captain Gonzalo Coelho You said: "${inputValue}"`,
+          text: `Still under construction "${inputValue}"`,
           isUser: false
         }]);
       }, 1000);

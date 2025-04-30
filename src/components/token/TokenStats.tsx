@@ -61,27 +61,27 @@ const TokenStats: React.FC = () => {
       
       <StatItem>
         <StatLabel>Current Price</StatLabel>
-        <StatValue>$0.0125</StatValue>
+        <StatValue>$-</StatValue>
       </StatItem>
       
       <StatItem>
         <StatLabel>Market Cap</StatLabel>
-        <StatValue>$1,250,000</StatValue>
+        <StatValue>$-</StatValue>
       </StatItem>
       
       <StatItem>
         <StatLabel>Total Supply</StatLabel>
-        <StatValue>100,000,000</StatValue>
+        <StatValue>-</StatValue>
       </StatItem>
       
       <StatItem>
         <StatLabel>Circulating Supply</StatLabel>
-        <StatValue>25,000,000</StatValue>
+        <StatValue>-</StatValue>
       </StatItem>
       
       <StatItem>
         <StatLabel>24h Volume</StatLabel>
-        <StatValue>$45,625</StatValue>
+        <StatValue>$-</StatValue>
       </StatItem>
     </StatsContainer>
   );
